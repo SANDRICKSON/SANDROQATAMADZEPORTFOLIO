@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}პორფოლიო{% endblock %}
+
+{% block content %}
+<h2>ჩემი პროექტები</h2>
+
+<table class="table table-bordered table-striped mt-4">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">პროექტის სახელი</th>
+            <th scope="col">შექმნის თარიღი</th>
+            <th scope="col">გალერეა</th>
+            <th scope="col">პროექტის ლინკი</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for project in projects %}
+        <tr>
+            <td>{{ project.title }}</td>
+            <td>{{ project.creation_date }}</td>
+            <td>
+                {% if project.gallery %}
+                    <a href="{{ project.gallery }}" target="_blank" class="btn btn-secondary">გალერეა</a>
+                {% else %}
+                    არ არის
+                {% endif %}
+            </td>
+            <td>
+                {% if project.link %}
+                    <a href="{{ project.link }}" class="btn btn-primary" target="_blank">იხილეთ პროექტი</a>
+                {% else %}
+                    არ არის
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
