@@ -6,4 +6,4 @@ wtforms
 itsdangerous
 requests
 gunicorn
-psycopg2
+
