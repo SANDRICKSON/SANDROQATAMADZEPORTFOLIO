@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 
 # Flask-Mail კონფიგურაცია
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Gmail-ის სერვერი
-app.config['MAIL_PORT'] = 587
+app.config['MAIL_PORT'] = 587 
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'sandricksoni@gmail.com'  # შენი ელ.ფოსტა
 app.config['MAIL_PASSWORD'] = 'isiv iqey coyf vstd'  # შენი პაროლი (ან აპლიკაციის პაროლი)
@@ -22,12 +22,7 @@ app.config['MAIL_DEFAULT_SENDER'] = 'sandricksoni@gmail.com'
 
 mail = Mail(app)  # Flask-Mail ობიექტი
 
-# 🔹 პროექტების მოდელი
-class Project(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    link = db.Column(db.String(200), nullable=True)
+
 
 # 🔹 მესიჯების მოდელი
 class Message(db.Model):
@@ -95,8 +90,7 @@ def about():
 
 @app.route('/portfolio')
 def portfolio():
-    projects = Project.query.all()
-    return render_template('portfolio.html', projects=projects)
+    return render_template('portfolio.html',)
 
 # 🔹 მიღებული შეტყობინებების ნახვა
 @app.route('/messages')
