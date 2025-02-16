@@ -21,17 +21,17 @@
 
         <div class="mb-3">
             {{ form.name.label(class="form-label") }}
-            {{ form.name(class="form-control", placeholder="თქვენი სახელი", required=True) }}
+            {{ form.name(class="form-control", placeholder="თქვენი სახელი") }}
         </div>
 
         <div class="mb-3">
             {{ form.email.label(class="form-label") }}
-            {{ form.email(class="form-control", placeholder="თქვენი ელ.ფოსტა", required=True) }}
+            {{ form.email(class="form-control", placeholder="თქვენი ელ.ფოსტა") }}
         </div>
 
         <div class="mb-3">
             {{ form.message.label(class="form-label") }}
-            {{ form.message(class="form-control", rows=4, placeholder="შეტყობინების ტექსტი", required=True) }}
+            {{ form.message(class="form-control", rows=4, placeholder="შეტყობინების ტექსტი") }}
         </div>
 
         <button type="submit" class="btn btn-success btn-lg">გაგზავნა</button>
