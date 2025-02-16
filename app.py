@@ -69,15 +69,24 @@ def verify_email(token):
     # აქ შეიძლება მოახდინო მომხმარებლის აქტივაციის პროცესი
     return redirect(url_for('contact'))
 
-@app.route('/contact', methods=['GET', 'POST']) 
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
     form = ContactForm()
+
     if form.validate_on_submit():
-        # ელ.ფოსტის ვერიფიკაციის გაგზავნა
-        send_verification_email(form.email.data)
+        # ელ.ფოსტის ვალიდაცია
+        if not form.email.data or not form.email.data.endswith('@example.com'):
+            flash('Please use a valid email address.', 'danger')
+            return render_template('contact.html', form=form)
+
+        try:
+            send_verification_email(form.email.data)
+            flash('Verification email sent! Please verify your email before submitting the message.', 'info')
+        except Exception as e:
+            flash(f'Error sending email: {str(e)}', 'danger')
         
-        flash('Verification email sent! Please verify your email before submitting the message.', 'info')
         return redirect(url_for('contact'))
+
     return render_template('contact.html', form=form)
 
 @app.route('/')
