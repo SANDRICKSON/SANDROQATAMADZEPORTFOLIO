@@ -5,24 +5,24 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Email
 from itsdangerous import URLSafeTimedSerializer as Serializer
-from datetime import timedelta
-import os
+from datetime import timedelta 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'Sandricksoni729')  # მიჩვეული გარემოს ცვლადი
+app.config['SECRET_KEY'] = 'Sandricksoni729'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Flask-Mail კონფიგურაცია
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Gmail-ის სერვერი
 app.config['MAIL_PORT'] = 587 
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'sandricksoni@gmail.com')  # ელ.ფოსტის მომხმარებელი
-app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'isiv iqey coyf vstd')  # პაროლი (ან აპლიკაციის პაროლი)
-app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', 'sandricksoni@gmail.com')
+app.config['MAIL_USERNAME'] = 'sandricksoni@gmail.com'  # შენი ელ.ფოსტა
+app.config['MAIL_PASSWORD'] = 'isiv iqey coyf vstd'  # შენი პაროლი (ან აპლიკაციის პაროლი)
+app.config['MAIL_DEFAULT_SENDER'] = 'sandricksoni@gmail.com'
 
 mail = Mail(app)  # Flask-Mail ობიექტი
+
+
 
 # 🔹 მესიჯების მოდელი
 class Message(db.Model):
@@ -41,8 +41,11 @@ class ContactForm(FlaskForm):
 
 # 🔹 ვერმინაციის ფუნქცია
 def send_verification_email(user_email):
-    s = Serializer(app.config['SECRET_KEY'])
-    token = s.dumps({'email': user_email})
+    s = Serializer(app.config['SECRET_KEY'])  # Remove expires_in
+    token = s.dumps({'email': user_email})  # აღარ საჭიროა .decode('utf-8')
+
+    
+    # ვადა (1 საათი)
     verification_link = url_for('verify_email', token=token, _external=True)
 
     msg = MailMessage(
@@ -50,11 +53,7 @@ def send_verification_email(user_email):
         recipients=[user_email],
         body=f"სალამი მეგობარო!\n\nდიდი მადლობა რომ დაინტერესდი ჩემი პორტფოლიოთი და ნაშრომებით. ნებისმიერი კითხვა შეგიძლია მოიწერო, თუმცა მანამდე გაიარე ვერიფიკაცია.\n\n{verification_link}\n\nპატივისცემით,\nსანდრო ქათამაძე - ახალგაზრდა დეველოპერი"
     )
-    
-    try:
-        mail.send(msg)
-    except Exception as e:
-        flash(f"Error while sending email: {str(e)}", 'danger')
+    mail.send(msg)  
 
 @app.route('/verify_email/<token>')
 def verify_email(token):
