@@ -21,6 +21,9 @@ app.config['MAIL_PASSWORD'] = 'isiv iqey coyf vstd'
 app.config['MAIL_DEFAULT_SENDER'] = 'sandricksoni@gmail.com'
 
 mail = Mail(app)
+@app.route('/about')
+def about_me():
+    return render_template('about.html')
 
 @app.route('/')
 def home():
