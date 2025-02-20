@@ -22,7 +22,7 @@ app.config['MAIL_DEFAULT_SENDER'] = 'sandricksoni@gmail.com'
 
 mail = Mail(app)
 @app.route('/about')
-def about_me():
+def about():
     return render_template('about.html')
 
 @app.route('/')
