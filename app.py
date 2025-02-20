@@ -22,6 +22,9 @@ app.config['MAIL_DEFAULT_SENDER'] = 'sandricksoni@gmail.com'
 
 mail = Mail(app)
 
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 # 🔹 ვერიფიცირებული ელფოსტების მოდელი
 class VerifiedEmail(db.Model):
